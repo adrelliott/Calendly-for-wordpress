@@ -1,4 +1,3 @@
-
 /**
 * Format can be 'time' or 'date'. Defaults to date.
 * Usage: [calendly format='{format}']
@@ -15,17 +14,19 @@ add_shortcode('calendly', 'obl_datetime');
 */
 function obl_datetime ( $attributes ) {
   
+  $return = "Check your email"; //default string to be returned
+  
   // Test for var in the URL and bail if nothing is returned (i.e. no param found)
   $timestamp = dynamic_content( ['key' => 'event_start_time'] );
   if (  empty( $timestamp ) )
-    return "";
+    return $return;
   
   // Now convert into an array of day, month etc
   $timestamp = strtotime( $timestamp );
   
-  // Not an timestamp? Return nothing.
+  // Not an timestamp? Return default.
   if ( !is_int( $timestamp ) OR empty( $timestamp ) )
-    return "";
+    return $return;
   
   // Else output the time/date accordingly
   if ( $attributes['format'] == 'time' ) {
